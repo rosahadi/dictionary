@@ -11,12 +11,14 @@ class DictionaryApp {
     this.container = document.querySelector(".container");
     this.sound = document.getElementById("sound");
 
+    // Bind methods to maintain 'this' context
     this.handleSearch = this.handleSearch.bind(this);
     this.onSearchButtonClick = this.onSearchButtonClick.bind(this);
     this.onSearchFieldKeyDown = this.onSearchFieldKeyDown.bind(this);
     this.init = this.init.bind(this);
   }
 
+  // Fetch word definitions from the API
   async getWordDefinitions(word) {
     const apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
     try {
@@ -33,12 +35,14 @@ class DictionaryApp {
         error
       );
 
+      // Display error message if word not found
       this.dictionary.innerHTML = `
       <h2 class="error">Couldn't Find The Word</h2>
     `;
     }
   }
 
+  // Display word definitions in the dictionary section
   displayDictionary(data) {
     const { word, phonetic, meanings, phonetics, sourceUrls } = data[0];
 
@@ -58,7 +62,7 @@ class DictionaryApp {
           <div class="word-header">
             <div class="word-header-text">
               <h1 class="h1">${word}</h1>
-              <span class="pronunciation">${phonetic}</span>
+              <span class="pronunciation">${phonetic || ""}</span>
             </div>
             <button class="icon-btn big" data-ripple>
               <i class="ph-fill ph-play"></i>
@@ -73,12 +77,12 @@ class DictionaryApp {
     const playIcon = document.querySelector(".ph-play");
     const pauseIcon = document.querySelector(".ph-pause");
 
+    // Add event listener to play audio
     playButton.addEventListener("click", () =>
       this.playSound(audioUrl, playIcon, pauseIcon)
     );
-
-    const rippleElems = document.querySelectorAll("[data-ripple]");
-    rippleElems.forEach((rippleElem) => ripple(rippleElem));
+    // Apply ripple effect to  playButton
+    ripple(playButton);
 
     // Render meanings if available
     if (meanings && meanings.length > 0) {
@@ -106,6 +110,7 @@ class DictionaryApp {
     this.container.insertAdjacentHTML("beforeend", footer);
   }
 
+  // Render a single meaning in the dictionary
   renderMeaning(meaning) {
     const definitionsList = meaning.definitions
       .slice(0, 3)
@@ -147,6 +152,7 @@ class DictionaryApp {
     this.dictionary.insertAdjacentHTML("beforeend", partOfSpeechDiv);
   }
 
+  // Play audio when the play button is clicked
   playSound(audioUrl, playIcon, pauseIcon) {
     const audio = new Audio(audioUrl);
 
@@ -163,12 +169,12 @@ class DictionaryApp {
     audio.play();
   }
 
+  // Handle the search operation
   async handleSearch() {
     const urlParams = new URLSearchParams(window.location.search);
     const searchTerm = urlParams.get("search");
 
     if (searchTerm) {
-      // this.input.value = searchTerm;
       const data = await this.getWordDefinitions(searchTerm);
       if (data) {
         this.displayDictionary(data);
@@ -176,9 +182,12 @@ class DictionaryApp {
     }
   }
 
+  // Initialize the app
   init() {
+    // Call the handleSearch function to perform initial search if a term is present in the URL
     this.handleSearch();
 
+    // Clear the search input field when the clear button is clicked
     this.searchClearBtn.addEventListener(
       "click",
       () => (this.input.value = "")
@@ -192,6 +201,7 @@ class DictionaryApp {
     this.input.addEventListener("keydown", this.onSearchFieldKeyDown);
   }
 
+  // Handle the search button click
   onSearchButtonClick() {
     const inputValue = this.input.value.trim().toLowerCase();
 
@@ -201,6 +211,7 @@ class DictionaryApp {
     }
   }
 
+  // Handle search field keydown event
   onSearchFieldKeyDown(event) {
     if (event.key === "Enter" && this.input.value.trim()) {
       event.preventDefault();
@@ -208,6 +219,7 @@ class DictionaryApp {
     }
   }
 
+  // Update the URL with the search value
   updateURL(searchValue) {
     const root = window.location.origin;
     window.location = `${root}/?search=${searchValue}`;
