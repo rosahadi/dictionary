@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dictionary</title>
+
+    <!-- Google font link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Custom css link -->
+    <link rel="stylesheet" href="style.css" />
+
+    <script type="module" src="js/global.js"></script>
+  </head>
+  <body>
+    <audio id="sound"></audio>
+    <div class="container">
+      <header class="header">
+        <a href="/" class="logo">
+          <i class="ph-fill ph-books"></i> <span>Dictionary</span></a
+        >
+
+        <div class="theme-toggle">
+          <label for="checkbox" class="checkbox-label"
+            ><input type="checkbox" class="checkbox" id="checkbox" />
+            <span class="ball">
+              <i class="ph-fill ph-moon-stars"></i>
+
+              <i class="ph-fill ph-sun"></i
+            ></span>
+          </label>
+        </div>
+      </header>
+
+      <main>
+        <article>
+          <section class="search-view">
+            <div class="search-bar">
+              <form class="input-wrapper">
+                <input
+                  type="search"
+                  name="search"
+                  placeholder="Search..."
+                  autocomplete="off"
+                  class="input-field"
+                  data-search-field
+                />
+              </form>
+
+              <button
+                class="icon-btn"
+                aria-label="Clear search"
+                data-ripple
+                data-search-clear-btn
+              >
+                <i class="ph-bold ph-x" aria-hidden="true"></i>
+                <div class="state-layer"></div>
+              </button>
+
+              <button
+                class="icon-btn search-btn"
+                aria-label="Submit search"
+                data-search-toggler
+                data-search-btn
+                data-ripple
+              >
+                <i class="ph-bold ph-magnifying-glass" aria-hidden="true"></i>
+                <div class="state-layer"></div>
+              </button>
+            </div>
+          </section>
+
+          <!-- Dictionary  -->
+          <section class="dictionary"></section>
+        </article>
+      </main>
+    </div>
+  </body>
+</html>
